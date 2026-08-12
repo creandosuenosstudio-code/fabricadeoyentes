@@ -389,7 +389,7 @@ src="https://www.facebook.com/tr?id=1745476969828389&ev=PageView&noscript=1"
   <div class="wrap">
     <div style="max-width:960px; margin:0 auto; border-radius:16px; overflow:hidden; border:1px solid rgba(0,217,184,0.4); box-shadow:0 40px 80px -40px rgba(0,0,0,0.7), 0 0 60px -20px rgba(0,217,184,0.35);">
       <div style="padding:56.25% 0 0 0; position:relative;">
-        <iframe id="vsl-player" src="https://player.vimeo.com/video/1217801155?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;autoplay=1&amp;muted=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="VSL Spotify"></iframe>
+        <iframe id="vsl-player" src="https://player.vimeo.com/video/1217801155?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;autoplay=1&amp;muted=1&amp;playsinline=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="VSL Spotify" playsinline webkit-playsinline></iframe>
       </div>
     </div>
   </div>
@@ -400,12 +400,24 @@ src="https://www.facebook.com/tr?id=1745476969828389&ev=PageView&noscript=1"
     var iframe = document.getElementById('vsl-player');
     var player = new Vimeo.Player(iframe);
 
-    // Arranca siempre silenciado a velocidad 1.3x — esto nunca lo bloquea el navegador
+    // Arranca siempre silenciado a velocidad 1.2x — esto nunca lo bloquea el navegador
     player.setPlaybackRate(1.2).catch(function(){});
-    player.setMuted(true).then(function(){ player.play().catch(function(){}); });
 
-    // Apenas la persona haga el primer clic en cualquier parte de la página, se activa el sonido
+    function intentarReproducir(){
+      player.setMuted(true).then(function(){
+        player.play().catch(function(){});
+      });
+    }
+
+    // Intento inicial apenas el player esté listo
+    player.ready().then(intentarReproducir);
+
+    // Reintento extra a los 500ms — en móvil el primer intento a veces llega antes de que el video esté cargado del todo
+    setTimeout(intentarReproducir, 500);
+
+    // Apenas la persona haga el primer clic o toque en cualquier parte de la página, se activa el sonido (y reintenta el play si aún no arrancó)
     function activarSonido(){
+      player.play().catch(function(){});
       player.setMuted(false);
       document.removeEventListener('click', activarSonido);
       document.removeEventListener('touchstart', activarSonido);
