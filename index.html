@@ -27,6 +27,7 @@
     font-family:'Inter',sans-serif;
     line-height:1.5;
     overflow-x:hidden;
+    padding-bottom:76px;
   }
   h1,h2,h3{font-family:'Sora',sans-serif;}
   .eyebrow{
@@ -335,6 +336,24 @@
     color:var(--muted); font-size:0.8rem; font-family:'JetBrains Mono',monospace;
   }
   footer span{color:var(--aqua-bright);}
+
+  /* STICKY CTA BAR */
+  .sticky-cta{
+    position:fixed; left:0; right:0; bottom:0; z-index:100;
+    background:rgba(8,11,16,0.9);
+    backdrop-filter:blur(12px);
+    border-top:1px solid rgba(0,217,184,0.35);
+    padding:12px 16px;
+    display:flex; justify-content:center;
+    box-shadow:0 -10px 30px -10px rgba(0,0,0,0.6);
+  }
+  .sticky-cta a{
+    width:100%; max-width:480px; text-align:center;
+    background:linear-gradient(90deg, var(--aqua-bright), var(--aqua));
+    color:#04120f; font-weight:700; padding:13px 20px; border-radius:10px;
+    text-decoration:none; font-size:0.95rem; font-family:'Sora',sans-serif;
+    box-shadow:0 8px 24px -6px rgba(45,255,206,0.5);
+  }
 </style>
 <!-- Meta Pixel Code -->
 <script>
@@ -368,14 +387,14 @@ src="https://www.facebook.com/tr?id=1745476969828389&ev=PageView&noscript=1"
 
 <section class="vsl-section vsl-tight">
   <div class="wrap">
-    <div class="vsl-frame">
-      <!-- Reemplazar este bloque con el embed del VSL cuando esté listo -->
-      <div class="play-btn">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="#04120f"><path d="M8 5v14l11-7z"/></svg>
+    <div style="max-width:960px; margin:0 auto; border-radius:16px; overflow:hidden; border:1px solid rgba(0,217,184,0.4); box-shadow:0 40px 80px -40px rgba(0,0,0,0.7), 0 0 60px -20px rgba(0,217,184,0.35);">
+      <div style="padding:75% 0 0 0; position:relative;">
+        <iframe src="https://player.vimeo.com/video/1217801155?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="VSL Spotify"></iframe>
       </div>
     </div>
   </div>
 </section>
+<script src="https://player.vimeo.com/api/player.js"></script>
 
 <section>
   <div class="wrap">
@@ -532,6 +551,10 @@ src="https://www.facebook.com/tr?id=1745476969828389&ev=PageView&noscript=1"
     </div>
   </div>
 </section>
+
+<div class="sticky-cta">
+  <a href="#precio" onclick="if(typeof fbq!=='undefined'){fbq('track','Lead');}">Acceder a Fábrica de Oyentes →</a>
+</div>
 
 <footer>
   <img src="data:image/png;base64,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" alt="Creando Sueños Studio" style="height:56px; width:auto; display:block; margin:0 auto 14px;">
